@@ -1,0 +1,24 @@
+FROM debian:8.1
+
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62
+RUN echo "deb http://nginx.org/packages/mainline/debian/ jessie nginx" >> /etc/apt/sources.list
+
+RUN apt-get update \
+    && apt-get install -y ca-certificates nginx \
+    && rm -rf /var/lib/apt/lists/*
+
+ADD nginx.conf /etc/nginx/
+ADD webapp.conf /etc/nginx/sites-enabled/
+
+RUN echo "upstream php-upstream { server php:9000; }" > /etc/nginx/conf.d/upstream.conf
+
+RUN usermod -u 1000 www-data
+
+WORKDIR /var/www
+
+CMD ["nginx", "-g", "daemon off;"]
+
+EXPOSE 80
+EXPOSE 443
