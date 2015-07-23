@@ -21,7 +21,10 @@ RUN usermod -u 1000 www-data
 
 WORKDIR /var/www
 
+EXPOSE 80
+
+EXPOSE 443
+
 CMD ["nginx", "-g", "daemon off;"]
 
-EXPOSE 80
-EXPOSE 443
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
