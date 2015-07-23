@@ -9,7 +9,8 @@ ENV NGINX_VERSION 1.9.3-1~jessie
 
 RUN apt-get update \
     && apt-get install -y ca-certificates nginx=${NGINX_VERSION} \
-    && rm -rf /var/lib/apt/lists/*
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ADD nginx.conf /etc/nginx/
 ADD webapp.conf /etc/nginx/sites-enabled/
@@ -22,9 +23,7 @@ RUN usermod -u 1000 www-data
 WORKDIR /var/www
 
 EXPOSE 80
-
 EXPOSE 443
 
 CMD ["nginx", "-g", "daemon off;"]
 
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
