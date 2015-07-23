@@ -1,6 +1,4 @@
-FROM debian:8.1
-
-ENV DEBIAN_FRONTEND noninteractive
+FROM mayeco/docker-base
 
 RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62
 RUN echo "deb http://nginx.org/packages/mainline/debian/ jessie nginx" >> /etc/apt/sources.list
@@ -8,7 +6,8 @@ RUN echo "deb http://nginx.org/packages/mainline/debian/ jessie nginx" >> /etc/a
 ENV NGINX_VERSION 1.9.3-1~jessie
 
 RUN apt-get update \
-    && apt-get install -y ca-certificates nginx=${NGINX_VERSION} \
+    && apt-get install -y \
+    nginx=${NGINX_VERSION} \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
