@@ -6,8 +6,7 @@ RUN echo "deb http://nginx.org/packages/mainline/debian/ jessie nginx" >> /etc/a
 ENV NGINX_VERSION 1.9.3-1~jessie
 
 RUN apt-get update \
-    && apt-get install -y \
-    && nginx=${NGINX_VERSION} \
+    && apt-get install -y nginx=${NGINX_VERSION} \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
